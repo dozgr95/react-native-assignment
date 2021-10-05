@@ -13,19 +13,17 @@ const Input = styled.TextInput`
   width: 100%;
   background: white;
   margin: 5px;
-  height: 20px;
+  height: 30px;
+  padding: 5px;
 `;
 
 // should be button but it is strange with styled-components/native
-const User = styled.View<any>`
+const User = styled.TouchableOpacity`
   height: 40px;
-  display: flex;
   flex-direction: row;
-  cursor: pointer;
 `;
 
 const UserList = styled.View`
-  display: flex;
   flex-direction: column;
   background: white;
   width: 100%;
@@ -46,7 +44,7 @@ const Info = styled.Text`
 `;
 
 const userClicked = (user: GithubUser) => {
-  window.open(user.html_url, "_blank", "noopener,noreferrer");
+  window.open(user?.html_url, "_blank", "noopener,noreferrer");
 };
 
 const GithubSearch = () => {
@@ -80,9 +78,9 @@ const GithubSearch = () => {
         {searchResults.length > 0 &&
           searchResults.map((user) => {
             return (
-              <User key={user.id} onClick={() => userClicked(user)}>
-                <Avatar source={user.avatar_url} />
-                <Login>{user.login}</Login>
+              <User key={user?.id} onPress={() => userClicked(user)}>
+                <Avatar source={user?.avatar_url} />
+                <Login>{user?.login}</Login>
               </User>
             );
           })}

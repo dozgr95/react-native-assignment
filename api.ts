@@ -5,7 +5,8 @@ export interface GithubUser {
   html_url: string;
 }
 
-const ACCESS_TOKEN = "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";
+const ACCESS_TOKEN = "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"; // "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";
+
 const GITHUB_USER_API = "https://api.github.com/search/users";
 
 export const getGithubUsers = async (searchInput: string) => {
@@ -16,10 +17,16 @@ export const getGithubUsers = async (searchInput: string) => {
       Authorization: `token ${ACCESS_TOKEN}`,
     },
   });
-  const users = await githubUserResponse.json();
+  const convertedResponse = await githubUserResponse.json();
 
-  return users.items.map((item: any) => {
+  if (convertedResponse?.items === undefined && convertedResponse.message) {
+    throw convertedResponse.message;
+  }
+
+  const users = convertedResponse.items.map((item: any) => {
     const { login, id, avatar_url, html_url } = item;
     return { login, id, avatar_url, html_url };
   });
+
+  return users;
 };
